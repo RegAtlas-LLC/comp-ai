@@ -3,6 +3,7 @@ import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 const APP_AWS_REGION = process.env.APP_AWS_REGION;
 const APP_AWS_ACCESS_KEY_ID = process.env.APP_AWS_ACCESS_KEY_ID;
 const APP_AWS_SECRET_ACCESS_KEY = process.env.APP_AWS_SECRET_ACCESS_KEY;
+const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL;
 
 export const BUCKET_NAME = process.env.APP_AWS_BUCKET_NAME;
 export const APP_AWS_QUESTIONNAIRE_UPLOAD_BUCKET = process.env.APP_AWS_QUESTIONNAIRE_UPLOAD_BUCKET;
@@ -19,6 +20,7 @@ try {
 
   s3ClientInstance = new S3Client({
     region: APP_AWS_REGION,
+    endpoint: S3_ENDPOINT_URL,
     credentials: {
       accessKeyId: APP_AWS_ACCESS_KEY_ID,
       secretAccessKey: APP_AWS_SECRET_ACCESS_KEY,

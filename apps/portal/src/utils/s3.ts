@@ -5,6 +5,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 const APP_AWS_REGION = process.env.APP_AWS_REGION;
 const APP_AWS_ACCESS_KEY_ID = process.env.APP_AWS_ACCESS_KEY_ID;
 const APP_AWS_SECRET_ACCESS_KEY = process.env.APP_AWS_SECRET_ACCESS_KEY;
+const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL;
 
 export const BUCKET_NAME = process.env.APP_AWS_BUCKET_NAME;
 
@@ -24,6 +25,7 @@ if (!APP_AWS_ACCESS_KEY_ID || !APP_AWS_SECRET_ACCESS_KEY || !BUCKET_NAME || !APP
 // Add null checks or assertions if the checks above don't guarantee non-null values
 export const s3Client = new S3Client({
   region: APP_AWS_REGION!,
+  endpoint: S3_ENDPOINT_URL,
   credentials: {
     accessKeyId: APP_AWS_ACCESS_KEY_ID!,
     secretAccessKey: APP_AWS_SECRET_ACCESS_KEY!,

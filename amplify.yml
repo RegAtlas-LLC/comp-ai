@@ -1,20 +1,22 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - curl -fsSL https://bun.sh/install | bash
-        - export PATH="$HOME/.bun/bin:$PATH"
-        - bun install
-        - cd apps/app && bun run db:generate
-    build:
-      commands:
-        - export PATH="$HOME/.bun/bin:$PATH"
-        - cd apps/app && bun run build
-  artifacts:
-    baseDirectory: apps/app/.next
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - curl -fsSL https://bun.sh/install | bash
+            - export PATH="$HOME/.bun/bin:$PATH"
+            - cd ../.. && bun install
+            - bun run db:generate
+        build:
+          commands:
+            - export PATH="$HOME/.bun/bin:$PATH"
+            - bun run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - ../../node_modules/**/*
+    appRoot: apps/app

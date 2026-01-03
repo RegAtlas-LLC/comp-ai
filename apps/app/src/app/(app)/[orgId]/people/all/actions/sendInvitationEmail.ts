@@ -59,16 +59,11 @@ export const sendInvitationEmailToExistingMember = async ({
       },
     });
 
-    // Generate invite link
-    const isLocalhost = process.env.NODE_ENV === 'development';
-    const protocol = isLocalhost ? 'http' : 'https';
-
-    const betterAuthUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL;
-    const isDevEnv = betterAuthUrl?.includes('dev.trycomp.ai');
-    const isProdEnv = betterAuthUrl?.includes('app.trycomp.ai');
-
-    const domain = isDevEnv ? 'dev.trycomp.ai' : isProdEnv ? 'app.trycomp.ai' : 'localhost:3000';
-    const inviteLink = `${protocol}://${domain}/invite/${invitation.id}`;
+    // Generate invite link using BETTER_AUTH_URL
+    const betterAuthUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || process.env.BETTER_AUTH_URL;
+    const inviteLink = betterAuthUrl
+      ? `${betterAuthUrl}/invite/${invitation.id}`
+      : `http://localhost:3000/invite/${invitation.id}`;
 
     // Send the invitation email
     await sendInviteMemberEmail({

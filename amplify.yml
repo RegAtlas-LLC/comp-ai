@@ -8,7 +8,6 @@ applications:
             - export PATH="$HOME/.bun/bin:$PATH"
             - cd ../.. && bun install
             - bun run db:generate
-            - cd ../.. && npx turbo build --filter=@trycompai/ui --filter=@trycompai/db --filter=@trycompai/email --filter=@trycompai/kv --filter=@trycompai/analytics --filter=@comp/integration-platform
         build:
           commands:
             - export PATH="$HOME/.bun/bin:$PATH"

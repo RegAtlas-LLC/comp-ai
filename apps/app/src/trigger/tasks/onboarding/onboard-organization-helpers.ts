@@ -464,11 +464,8 @@ async function triggerVendorRiskAssessmentsViaApi(params: {
       errorDetails.error = String(error);
     }
 
-    logger.error('Failed to trigger vendor risk assessments via API', errorDetails);
-    // Re-throw so we can see it in Trigger.dev dashboard
-    throw new Error(
-      `Failed to trigger vendor risk assessments: ${error instanceof Error ? error.message : String(error)}`,
-    );
+    logger.warn('Failed to trigger vendor risk assessments via API (non-blocking)', errorDetails);
+    // Don't throw - this is best-effort and shouldn't block onboarding
   }
 }
 

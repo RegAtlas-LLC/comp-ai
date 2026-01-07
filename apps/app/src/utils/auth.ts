@@ -68,6 +68,18 @@ export const auth = betterAuth({
       // It's important so we can use custom IDs specified in Prisma Schema.
       generateId: false,
     },
+    // Cookie configuration for production
+    useSecureCookies: process.env.NODE_ENV === 'production',
+    defaultCookieAttributes: {
+      httpOnly: true,
+      sameSite: 'lax' as const,
+      path: '/',
+      secure: process.env.NODE_ENV === 'production',
+      // Explicitly set domain for production to handle subdomain correctly
+      ...(process.env.NODE_ENV === 'production' && {
+        domain: process.env.COOKIE_DOMAIN || undefined,
+      }),
+    },
   },
   databaseHooks: {
     session: {
@@ -131,12 +143,15 @@ export const auth = betterAuth({
         const betterAuthUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL;
         const isDevEnv = betterAuthUrl?.includes('dev.trycomp.ai');
         const isProdEnv = betterAuthUrl?.includes('app.trycomp.ai');
+        const isRegAtlas = betterAuthUrl?.includes('compliance.regatlas.app');
 
-        const domain = isDevEnv
-          ? 'dev.trycomp.ai'
-          : isProdEnv
-            ? 'app.trycomp.ai'
-            : 'localhost:3000';
+        const domain = isRegAtlas
+          ? 'compliance.regatlas.app'
+          : isDevEnv
+            ? 'dev.trycomp.ai'
+            : isProdEnv
+              ? 'app.trycomp.ai'
+              : 'localhost:3000';
         const inviteLink = `${protocol}://${domain}/invite/${data.invitation.id}`;
 
         const url = `${protocol}://${domain}/auth`;
